@@ -1,0 +1,68 @@
+import os
+import datetime
+from datetime import datetime
+from ftplib import FTP
+import ftplib
+import sys
+
+serverIp="XXXX"
+user="XXXX"
+password="XXXXX"
+virtualFolder="/2"
+location="C:/Users/user/Pictures/path"
+mainFolderLocation=""
+
+
+def date_time_funf():
+    global date_time
+    now = datetime.now()  # current date and time
+    year = now.strftime("%Y")
+    month = now.strftime("%m")
+    day = now.strftime("%d")
+    time = now.strftime("%H:%M:%S")
+    date_time = now.strftime("%m.%d.%Y, %H.%M")
+   # print(date_time)
+
+def cdftp(virtualFolder):
+    ftp.cwd(virtualFolder)
+
+def transFile():
+    LIST123 = ftp.nlst()
+    for x in range(0, len(LIST123)):
+        filename = LIST123[x]
+        ftp.retrbinary('RETR ' + filename, open(filename, 'wb').write)
+
+try:
+    with ftplib.FTP(serverIp) as ftp:
+        ftp.login(user= user, passwd= password)
+except:
+    print("error")
+    sys.exit()
+
+with ftplib.FTP(serverIp) as ftp:
+    ftp.login(user= user, passwd= password)
+
+    #change dir ftp
+   # folder="/2"
+
+    cdftp(virtualFolder)
+
+# change dir pc
+    #//print('local_folder', os.getcwd())
+    #os.chdir(location)
+    #print('wanted_folder', os.getcwd())
+
+# date and time
+    date_time_funf()
+
+#create new folder in pc
+    name = date_time
+    newLocation=os.path.join(mainFolderLocation, date_time)
+    os.mkdir(newLocation)
+    os.chdir(newLocation)
+
+#transfer file from ftp to pc
+    transFile()
+
+    print('goodbye')
+
