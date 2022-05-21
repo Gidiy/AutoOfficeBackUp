@@ -1,0 +1,13 @@
+import os
+from shutil import make_archive
+
+
+
+def file_and_dir(path1, name_dir):
+    make_archive(name_dir, 'zip', root_dir=os.path.join(path1 + name_dir))
+
+#replace the old file instead the new file
+os.chdir("")
+
+file_and_dir("","New folder")
+
